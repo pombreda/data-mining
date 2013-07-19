@@ -1,0 +1,19 @@
+PREFIX dbp-ont: <http://dbpedia.org/ontology/>
+SELECT DISTINCT ?person ?label
+WHERE {
+    ?person rdfs:label ?label .
+    ?person rdf:type dbp-ont:MusicalArtist .
+    ?person dbpedia2:instrument :Guitar .
+    FILTER (lang(?label) = "en") .
+} ORDER BY DESC(?label)
+
+
+Other resources
+
+http://en.wikipedia.org/wiki/List_of_Dean_Guitars_players
+http://en.wikipedia.org/wiki/List_of_Epiphone_players
+http://en.wikipedia.org/wiki/List_of_Gibson_players
+http://en.wikipedia.org/wiki/List_of_Ibanez_players
+http://en.wikipedia.org/wiki/List_of_Rickenbacker_players
+http://en.wikipedia.org/wiki/List_of_Stratocaster_players
+http://en.wikipedia.org/wiki/List_of_Telecaster_players
