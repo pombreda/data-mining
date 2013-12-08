@@ -1,2 +1,5 @@
 *.pyc
 *.sql
+dbpedia/
+wikipedia/
+shapefiles/
