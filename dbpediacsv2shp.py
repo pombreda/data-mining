@@ -7,7 +7,7 @@ import unicodecsv
 from os.path import basename, splitext
 
 parser = argparse.ArgumentParser(description='Create shapefiles from CSV.')
-parser.add_argument('shp', help='Source shapefile')
+parser.add_argument('csv', help='Source CSV file')
 args = parser.parse_args()
 
 w = shapefile.Writer(shapefile.POINT)
@@ -28,7 +28,7 @@ def extract_wp_val(s):
     return s.strip().strip('{}').split('|')[0]
 
 
-with open(args.shp, 'rb') as csvin:
+with open(args.csv, 'rb') as csvin:
     reader = unicodecsv.reader(csvin)
     headers = reader.next()
     idxname = headers.index('name')
@@ -65,7 +65,7 @@ with open(args.shp, 'rb') as csvin:
 
 
 # write shape and CSV file
-fname = splitext(basename(args.shp))[0]
+fname = splitext(basename(args.csv))[0]
 w.save('shapefiles/%s' % fname)
 
 with open('shapefiles/%s.csv' % fname, 'wb') as csvout:
