@@ -11,6 +11,7 @@ parser.add_argument('shp', help='Source shapefile')
 args = parser.parse_args()
 
 w = shapefile.Writer(shapefile.POINT)
+outrows = [['name', 'latitude', 'longitude', 'thumbnail']]
 
 w.autoBalance = 1  # make sure gemoetry and attributes match
 w.field('X', 'F', 10, 5)
@@ -33,6 +34,7 @@ with open(args.shp, 'rb') as csvin:
     idxname = headers.index('name')
     idxlon = headers.index('wgs84_pos#long')
     idxlat = headers.index('wgs84_pos#lat')
+    idxthumb = headers.index('thumbnail')
 
     # the next 3 rows are metadata
     reader.next()
@@ -43,6 +45,7 @@ with open(args.shp, 'rb') as csvin:
         name = extract_wp_val(row[idxname]).encode('utf-8')
         lon = extract_wp_val(row[idxlon])
         lat = extract_wp_val(row[idxlat])
+        thumb = extract_wp_val(row[idxthumb])
 
         # skip NULL values
         if 'NULL' in [lat, lat, name]:
@@ -58,5 +61,13 @@ with open(args.shp, 'rb') as csvin:
         w.point(lon, lat)
         w.record(lon, lat, name)
 
+        outrows.append([name, lat, lon, thumb])
+
+
+# write shape and CSV file
 fname = splitext(basename(args.shp))[0]
 w.save('shapefiles/%s' % fname)
+
+with open('shapefiles/%s.csv' % fname, 'wb') as csvout:
+    writer = unicodecsv.writer(csvout)
+    writer.writerows(outrows)
