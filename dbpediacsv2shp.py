@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# Extracts data from DBpedia CSV files from
+# http://wiki.dbpedia.org/DBpediaAsTables
+# and generates shapefiles and a CSV file with names and geo locations.
 import argparse
 import shapefile
 import unicodecsv
